@@ -1,0 +1,24 @@
+version: '2.1'
+services:
+  php:
+      image: bitnami/php-fpm
+      container_name: lemp_php-fpm
+      restart: always
+      working_dir: /var/www/html
+      volumes:
+        - ./www/:/var/www/html
+      expose:
+        - "9000"
+  caddy:
+      image: caddy
+      container_name: caddyv2
+      restart: always
+      working_dir: /srv
+      volumes:
+        - ./Caddyfile:/etc/caddy/Caddyfile
+      volumes_from:
+        - php
+      ports:
+        - 80:80
+        - 443:443
+        - 2015:2015
